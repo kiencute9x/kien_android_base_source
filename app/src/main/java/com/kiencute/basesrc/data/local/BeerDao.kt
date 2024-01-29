@@ -16,9 +16,9 @@ interface BeerDao {
     fun getBeer(id: Int): LiveData<Beer>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(characters: List<Beer>)
+    suspend fun insertAll(beers: List<Beer>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(character: Beer)
+    suspend fun insert(beer: Beer)
 
 }

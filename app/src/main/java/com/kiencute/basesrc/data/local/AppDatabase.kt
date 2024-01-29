@@ -8,7 +8,7 @@ import com.kiencute.basesrc.data.entities.Beer
 import com.kiencute.basesrc.utils.ROOM_DB_NAME
 
 
-@Database(entities = [Beer::class], version = 2, exportSchema = false)
+@Database(entities = [Beer::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun beerDao(): BeerDao

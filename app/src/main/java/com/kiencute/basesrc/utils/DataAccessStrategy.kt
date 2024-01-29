@@ -3,8 +3,9 @@ package com.kiencute.basesrc.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import com.kiencute.basesrc.utils.Resource.Status.ERROR
+import com.kiencute.basesrc.utils.Resource.Status.SUCCESS
 import kotlinx.coroutines.Dispatchers
-import com.kiencute.basesrc.utils.Resource.Status.*
 
 fun <T, A> performGetOperation(
     databaseQuery: () -> LiveData<T>,

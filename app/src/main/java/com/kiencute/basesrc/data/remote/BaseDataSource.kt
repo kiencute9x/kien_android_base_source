@@ -1,12 +1,10 @@
 package com.kiencute.basesrc.data.remote
-
 import android.util.Log
 import com.kiencute.basesrc.utils.Resource
 import retrofit2.Response
 import timber.log.Timber
 
 abstract class BaseDataSource {
-
     protected suspend fun <T> getResult(call: suspend () -> Response<T>): Resource<T> {
         try {
             val response = call()

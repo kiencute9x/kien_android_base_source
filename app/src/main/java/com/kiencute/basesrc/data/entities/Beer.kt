@@ -3,6 +3,7 @@ package com.kiencute.basesrc.data.entities
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import javax.annotation.Nullable
 
@@ -13,15 +14,6 @@ data class Beer(
     val id: Int,
     val name: String,
     val tagline: String,
-    val firstBrewed: String,
-    val description: String,
+    @SerializedName("image_url")
     val imageUrl: String,
-    val abv: Double,
-    val ibu: Float,
-    val targetFg: Float,
-    val targetOg: Int,
-    val ebc: Int,
-    val srm: Float,
-    val ph: Double,
-    val attenuationLevel: Float
 ) : Parcelable

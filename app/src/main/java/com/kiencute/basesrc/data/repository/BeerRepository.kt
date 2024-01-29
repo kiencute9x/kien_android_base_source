@@ -20,7 +20,7 @@ class BeerRepository @Inject constructor(
     fun getAllBeers() = performGetOperation(
         databaseQuery = { localDataSource.getAllBeers() },
         networkCall = { remoteDataSource.getBeers() },
-        saveCallResult = { localDataSource.insertAll((listOf()))
+        saveCallResult = { localDataSource.insertAll(it)
         }
     )
 }

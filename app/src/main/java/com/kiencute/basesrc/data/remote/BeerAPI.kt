@@ -6,12 +6,12 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface BeerAPI {
-
     @Headers("Content-Type: application/json")
-    @GET("beers")
-    suspend fun getAllBeers() : Response <List<Beer>>
+    @GET("random")
+    suspend fun getAllBeers(@Query("fields") fields: String) : Response<List<Beer>>
 
     @GET("beer/{id}")
     suspend fun getBeer(@Path("id") id: Int): Response<Beer>
