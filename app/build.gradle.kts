@@ -1,9 +1,7 @@
 plugins {
     id("com.android.application")
-    kotlin("kapt")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
-    // use KSP
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
 }
@@ -18,7 +16,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -53,37 +50,41 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
 
     // test
-    testImplementation("junit:junit:4.14-SNAPSHOT")
+//    testImplementation("junit:junit:4.14-SNAPSHOT")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // DI
     implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    ksp("com.google.dagger:hilt-android-compiler:2.48")
 
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    kapt("com.github.bumptech.glide:compiler:4.14.2")
+    ksp("com.github.bumptech.glide:compiler:4.14.2")
 
 
     // room
     val room_version = "2.5.0"
+    implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
 
     //Kotlin Coroutines
-    val coroutines_android_version = "1.3.7"
+    val coroutines_android_version = "1.6.4"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android_version")
 
     // Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
+    //Lifecycle
+    val lifecycle_version = "2.7.0"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
 
 }
-
-kapt {
-    correctErrorTypes = true
-}
-

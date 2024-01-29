@@ -1,4 +1,4 @@
-package com.kiencute.basesrc.home
+package com.kiencute.basesrc.ui.details
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,14 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.kiencute.basesrc.R
-import com.kiencute.basesrc.databinding.FragmentFirstBinding
-import dagger.hilt.EntryPoint
+import com.kiencute.basesrc.databinding.FragmentSecondBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * A simple [Fragment] subclass as the second destination in the navigation.
+ */
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class DetailFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentSecondBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,14 +24,16 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentSecondBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+
+        binding.buttonSecond.setOnClickListener {
+            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
     }
 

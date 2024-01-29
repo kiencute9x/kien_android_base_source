@@ -1,4 +1,4 @@
-package com.kiencute.basesrc.ui.home.activites
+package com.kiencute.basesrc.activities
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
