@@ -48,6 +48,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
 
     // test
 //    testImplementation("junit:junit:4.14-SNAPSHOT")
@@ -86,5 +87,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
+    // data store
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
 }

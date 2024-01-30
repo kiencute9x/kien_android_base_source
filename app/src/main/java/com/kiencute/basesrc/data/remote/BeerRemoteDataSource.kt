@@ -7,5 +7,5 @@ class BeerRemoteDataSource @Inject constructor(
 ): BaseDataSource() {
 
     suspend fun getBeers() = getResult { eAPI.getAllBeers("id,name,tagline,image_url") }
-//    suspend fun getBeer(id: Int) = getResult { eAPI.getBeer(id) }
+    suspend fun getBeer(id: Int) = getResult { eAPI.getBeer(id) }
 }

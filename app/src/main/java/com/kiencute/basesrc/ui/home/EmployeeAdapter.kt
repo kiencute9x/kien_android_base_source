@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kiencute.basesrc.data.entities.Beer
 import com.kiencute.basesrc.databinding.ItemEmpBinding
+import com.kiencute.basesrc.extentions.load
 
 class EmployeeAdapter(private val listener: EItemListener) : RecyclerView.Adapter<EViewHolder>() {
 
@@ -46,10 +47,7 @@ class EViewHolder(private val itemBinding: ItemEmpBinding, private val listener:
         this.beer = item
         itemBinding.name.text = item.name
         itemBinding.subName.text = item.tagline
-//        Glide.with(itemBinding.root)
-//            .load(item.image)
-//            .transform(CircleCrop())
-//            .into(itemBinding.image)
+        itemBinding.imgView.load(item.imageUrl)
     }
 
     override fun onClick(v: View?) {

@@ -1,8 +1,9 @@
-package com.kiencute.basesrc.utils
+package com.kiencute.basesrc.extentions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import com.kiencute.basesrc.utils.Resource
 import com.kiencute.basesrc.utils.Resource.Status.ERROR
 import com.kiencute.basesrc.utils.Resource.Status.SUCCESS
 import kotlinx.coroutines.Dispatchers
