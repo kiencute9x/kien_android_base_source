@@ -1,13 +1,13 @@
 package com.kiencute.basesrc.ui.home
 
 import androidx.lifecycle.ViewModel
-import com.kiencute.basesrc.data.repository.BeerRepository
+import com.kiencute.basesrc.data.repository.EntityRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeVM @Inject constructor(
-    private val repository: BeerRepository
+    repository: EntityRepository
 ) : ViewModel(){
-    val data = repository.getAllBeers()
+    val data = repository.getAllEntities()
 }

@@ -10,14 +10,16 @@
         android:name="com.kiencute.basesrc.ui.home.HomeFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
-
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <argument
+            android:name="entity"
+            app:argType="com.kiencute.basesrc.data.entities.Entity"/>
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.kiencute.basesrc.details.DetailFragment"
+        android:name="com.kiencute.basesrc.ui.details.DetailFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 

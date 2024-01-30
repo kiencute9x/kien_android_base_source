@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.kiencute.basesrc.data.entities.Beer
+import com.kiencute.basesrc.data.entities.Entity
 import com.kiencute.basesrc.utils.ROOM_DB_NAME
 
 
-@Database(entities = [Beer::class], version = 3, exportSchema = false)
+@Database(entities = [Entity::class], version = 4, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun beerDao(): BeerDao
+    abstract fun entityDao(): EntityDao
 
     companion object {
         @Volatile private var instance: AppDatabase? = null

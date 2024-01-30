@@ -5,10 +5,10 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.kiencute.basesrc.data.local.AppDatabase
-import com.kiencute.basesrc.data.local.BeerDao
-import com.kiencute.basesrc.data.remote.BeerAPI
-import com.kiencute.basesrc.data.remote.BeerRemoteDataSource
-import com.kiencute.basesrc.data.repository.BeerRepository
+import com.kiencute.basesrc.data.local.EntityDao
+import com.kiencute.basesrc.data.remote.APIService
+import com.kiencute.basesrc.data.remote.EntityRemoteDataSource
+import com.kiencute.basesrc.data.repository.EntityRepository
 import com.kiencute.basesrc.utils.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -39,14 +39,14 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideEmployeeDao(db: AppDatabase) = db.beerDao()
+    fun provideEmployeeDao(db: AppDatabase) = db.entityDao()
 
     @Provides
-    fun provideCharacterService(retrofit: Retrofit): BeerAPI = retrofit.create(BeerAPI::class.java)
+    fun provideCharacterService(retrofit: Retrofit): APIService = retrofit.create(APIService::class.java)
 
     @Singleton
     @Provides
-    fun provideRepository(remoteDataSource: BeerRemoteDataSource,
-                          localDataSource: BeerDao) =
-        BeerRepository(remoteDataSource, localDataSource)
+    fun provideRepository(remoteDataSource: EntityRemoteDataSource,
+                          localDataSource: EntityDao) =
+        EntityRepository(remoteDataSource, localDataSource)
 }

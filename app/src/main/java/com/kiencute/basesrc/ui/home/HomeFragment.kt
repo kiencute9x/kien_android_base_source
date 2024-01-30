@@ -13,17 +13,18 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kiencute.basesrc.R
+import com.kiencute.basesrc.data.entities.Entity
 import com.kiencute.basesrc.databinding.FragmentFirstBinding
 import com.kiencute.basesrc.utils.Resource
 import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() , EmployeeAdapter.EItemListener {
+class HomeFragment : Fragment() , EntityAdapter.EItemListener {
     private var _binding: FragmentFirstBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeVM by viewModels()
-    private lateinit var adapter: EmployeeAdapter
+    private lateinit var adapter: EntityAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +46,7 @@ class HomeFragment : Fragment() , EmployeeAdapter.EItemListener {
     }
 
     private fun setupRecyclerView() {
-        adapter = EmployeeAdapter(this)
+        adapter = EntityAdapter(this)
         binding.charactersRv.layoutManager = LinearLayoutManager(requireContext())
         binding.charactersRv.adapter = adapter
     }
@@ -54,13 +55,11 @@ class HomeFragment : Fragment() , EmployeeAdapter.EItemListener {
         when (it.status) {
             Resource.Status.SUCCESS -> {
                 binding.progressBar.visibility = View.GONE
-                Log.d("aaaaaaaa", "setupObservers: " + !it.data.isNullOrEmpty())
                 if (!it.data.isNullOrEmpty())
                     adapter.setItems(ArrayList(it.data))
             }
 
             Resource.Status.ERROR -> {
-                Log.d("aaaaaaaaaa", "setupObservers: ${it.message}")
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             }
 
@@ -69,10 +68,10 @@ class HomeFragment : Fragment() , EmployeeAdapter.EItemListener {
         }
     }
 
-    override fun onClickedCharacter(characterId: Int) {
-//        findNavController().navigate(
-//            R.id.action_charactersFragment_to_characterDetailFragment,
-//            bundleOf("id" to characterId)
-//        )
+    override fun onClickedItem(entity: Entity) {
+        val bundle = bundleOf("data" to entity)
+        findNavController().navigate(
+            R.id.action_FirstFragment_to_SecondFragment , bundle
+        )
     }
 }
