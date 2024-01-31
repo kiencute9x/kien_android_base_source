@@ -1,17 +1,19 @@
 package com.kiencute.basesrc.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.lifecycleScope
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kiencute.basesrc.R
 import com.kiencute.basesrc.databinding.ActivityMainBinding
 import com.kiencute.basesrc.datastore.DataStoreManager
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private var uiStateJob: Job? = null
+
     @Inject
     lateinit var dataStoreManager: DataStoreManager
 
@@ -42,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         setupUI()
 
         setSupportActionBar(binding.toolbar)
-
+        getFirebaseFCMToken()
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -79,10 +82,12 @@ class MainActivity : AppCompatActivity() {
                 AppCompatDelegate.MODE_NIGHT_YES,
                 R.drawable.ic_mode_night_default_black
             )
+
             AppCompatDelegate.MODE_NIGHT_YES -> applyThemeMode(
                 Settings.MODE_NIGHT_DEFAULT,
                 R.drawable.ic_mode_night_no_black
             )
+
             else -> applyThemeMode(
                 AppCompatDelegate.MODE_NIGHT_NO,
                 R.drawable.ic_mode_night_yes_black
@@ -99,6 +104,16 @@ class MainActivity : AppCompatActivity() {
         if (AppCompatDelegate.getDefaultNightMode() != themeMode) {
             AppCompatDelegate.setDefaultNightMode(themeMode)
             window?.setWindowAnimations(R.style.WindowAnimationFadeInOut)
+        }
+    }
+
+    @SuppressLint("LogNotTimber")
+    private fun getFirebaseFCMToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                Log.d("getFirebaseFCMToken: %s", token)
+            }
         }
     }
 

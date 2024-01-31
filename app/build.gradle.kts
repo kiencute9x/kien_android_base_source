@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -90,6 +91,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+
+    // Google services
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
+
 
     // data store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
