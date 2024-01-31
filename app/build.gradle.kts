@@ -50,6 +50,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    testImplementation("org.testng:testng:6.9.6")
 
     // test
 //    testImplementation("junit:junit:4.14-SNAPSHOT")

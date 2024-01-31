@@ -1,5 +1,4 @@
-package com.kiencute.basesrc.data.remote
-import android.util.Log
+package com.kiencute.basesrc.data.base
 import com.kiencute.basesrc.utils.Resource
 import retrofit2.Response
 import timber.log.Timber
