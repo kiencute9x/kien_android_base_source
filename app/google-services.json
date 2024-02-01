@@ -12,7 +12,20 @@
           "package_name": "com.kiencute.basesrc"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "195951530304-q8cel9iggh225i495eln4mgdkts93gqg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiencute.basesrc",
+            "certificate_hash": "85ebaf6a973ef7632fc684b0f29b55c8b1da66d9"
+          }
+        },
+        {
+          "client_id": "195951530304-qn5h30o6ghd6apgieve4qtego05vbceb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBWYSsaTNHkHFrL1FTyNyJM6IZ5v92YAes"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "195951530304-qn5h30o6ghd6apgieve4qtego05vbceb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -51,10 +51,10 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     testImplementation("org.testng:testng:6.9.6")
 
     // test
-//    testImplementation("junit:junit:4.14-SNAPSHOT")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
@@ -96,7 +96,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+    // Facebook services
+    implementation("com.facebook.android:facebook-login:16.3.0")
 
     // data store
     implementation("androidx.datastore:datastore-preferences:1.0.0")

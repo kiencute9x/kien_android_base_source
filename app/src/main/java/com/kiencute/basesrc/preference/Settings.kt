@@ -3,6 +3,7 @@ package com.kiencute.basesrc.preference
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 
 object Settings {
 
@@ -14,5 +15,8 @@ object Settings {
         } else {
             AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
         }
+
+    val USERNAME = stringPreferencesKey("username")
+    val USER_ID = stringPreferencesKey("user_id")
 
 }

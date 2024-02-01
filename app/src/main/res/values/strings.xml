@@ -8,5 +8,12 @@
     <string name="previous">Previous</string>
     <string name="fcm_channel_id">fcm_channel_id</string>
     <string name="fcm_channel_name">fcm_channel_name</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+    <string name="facebook_app_id">1396752904301099</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">56789</string>
+    <string name="user_detail">User Detail</string>
+    <string name="user_info">User Infomation</string>
 
 </resources>

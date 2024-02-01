@@ -13,9 +13,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
-        <argument
-            android:name="entity"
-            app:argType="com.kiencute.basesrc.data.entities.Entity"/>
+        <action
+            android:id="@+id/action_FirstFragment_to_userInformationFragment"
+            app:destination="@id/userInformationFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -27,4 +27,8 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userInformationFragment"
+        android:name="com.kiencute.basesrc.ui.userInformation.UserInformationFragment"
+        android:label="UserInformationFragment"></fragment>
 </navigation>

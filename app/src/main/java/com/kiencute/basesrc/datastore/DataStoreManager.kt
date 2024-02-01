@@ -18,6 +18,8 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
 
     private val settingsDataStore = appContext.dataStore
 
+    // DarkMode
+
     suspend fun setThemeMode(mode: Int) {
         settingsDataStore.edit { settings ->
             settings[Settings.NIGHT_MODE] = mode
@@ -27,5 +29,29 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
     val themeMode: Flow<Int> = settingsDataStore.data.map { preferences ->
         preferences[Settings.NIGHT_MODE] ?: AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
     }
+
+    // User name
+
+    suspend fun setUserName(username: String) {
+        settingsDataStore.edit { settings ->
+            settings[Settings.USERNAME] = username
+        }
+    }
+
+    val username: Flow<String?> = settingsDataStore.data.map { preferences ->
+        preferences[Settings.USERNAME] ?: ""
+    }
+
+    // User id
+    suspend fun setUserId(userId: String) {
+        settingsDataStore.edit { settings ->
+            settings[Settings.USER_ID] = userId
+        }
+    }
+
+    val userId: Flow<String?> = settingsDataStore.data.map { preferences ->
+        preferences[Settings.USER_ID] ?: ""
+    }
+
 
 }

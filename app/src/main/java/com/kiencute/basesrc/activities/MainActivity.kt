@@ -124,9 +124,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_userInfo -> {
+                openInformationFragment()
+                return true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun openInformationFragment() {
+        findNavController(R.id.nav_host_fragment_content_main).navigate(
+            R.id.action_FirstFragment_to_userInformationFragment
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {

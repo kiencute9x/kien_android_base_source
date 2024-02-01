@@ -6,6 +6,7 @@ import com.kiencute.basesrc.data.local.EntityDao
 import com.kiencute.basesrc.data.remote.APIService
 import com.kiencute.basesrc.data.remote.EntityRemoteDataSource
 import com.kiencute.basesrc.data.repository.EntityRepository
+import com.kiencute.basesrc.datastore.DataStoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,8 +28,14 @@ object StorageModule {
     @Provides
     fun provideEmployeeDao(db: AppDatabase) = db.entityDao()
 
+    @Singleton
     @Provides
-    fun provideCharacterService(retrofit: Retrofit): APIService =
+    fun provideDataStoreManager(@ApplicationContext context: Context): DataStoreManager {
+        return DataStoreManager(context)
+    }
+
+    @Provides
+    fun provideAPIService(retrofit: Retrofit): APIService =
         retrofit.create(APIService::class.java)
 
     @Singleton
