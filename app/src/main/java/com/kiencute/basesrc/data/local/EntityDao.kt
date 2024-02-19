@@ -1,24 +1,23 @@
 package com.kiencute.basesrc.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.kiencute.basesrc.data.entities.Entity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EntityDao {
     @Query("SELECT * FROM entity")
-    fun getAllEntities() : LiveData<List<Entity>>
+    fun getAllEntities(): Flow<List<Entity>>
 
     @Query("SELECT * FROM entity WHERE id = :id")
-    fun getEntity(id: Int): LiveData<Entity>
+    fun getEntity(id: Int): Flow<Entity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(beers: List<Entity>)
+    suspend fun insertAll(entities: List<Entity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(beer: Entity)
-
+    suspend fun insert(entity: Entity)
 }

@@ -10,7 +10,7 @@ import retrofit2.http.Path
 interface APIService {
     @Headers("Content-Type: application/json")
     @GET("users.json?key=854d9b80")
-    suspend fun getEntities() : Response<List<Entity>>
+    suspend fun getEntities(): Response<List<Entity>>
 
     @Headers("Content-Type: application/json")
     @GET("beer/{id}")

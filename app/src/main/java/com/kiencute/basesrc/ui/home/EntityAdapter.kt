@@ -17,7 +17,7 @@ class EntityAdapter(private val listener: EItemListener) : RecyclerView.Adapter<
 
     private val items = ArrayList<Entity>()
 
-    fun setItems(items: ArrayList<Entity>) {
+    fun setItems(items: List<Entity>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()

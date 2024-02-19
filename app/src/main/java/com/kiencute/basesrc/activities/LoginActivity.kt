@@ -58,10 +58,10 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if (account != null) {
+//        val account = GoogleSignIn.getLastSignedInAccount(this)
+//        if (account != null) {
             navigateMainActivity()
-        }
+//        }
 
     }
 
