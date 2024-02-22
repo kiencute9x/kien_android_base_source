@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "basesrc"
+rootProject.name = "Landmark Remark"
 include(":app")
  

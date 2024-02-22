@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kiencute.basesrc"
+    namespace = "com.kiencute.landmarkremark"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.kiencute.basesrc"
+        applicationId = "com.kiencute.landmarkremark"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -93,13 +93,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     // Google services
-    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+//    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+//    implementation("com.google.firebase:firebase-analytics")
+//    implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
+//    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     // Facebook services
-    implementation("com.facebook.android:facebook-login:16.3.0")
+//    implementation("com.facebook.android:facebook-login:16.3.0")
 
     // data store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
