@@ -40,8 +40,6 @@ object StorageModule {
 
     @Singleton
     @Provides
-    fun provideRepository(
-        remoteDataSource: EntityRemoteDataSource,
-        localDataSource: EntityDao
-    ) = EntityRepository(remoteDataSource, localDataSource)
+    fun provideRepository(remoteDataSource: EntityRemoteDataSource, localDataSource: EntityDao) =
+        EntityRepository(remoteDataSource, localDataSource)
 }

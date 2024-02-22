@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kiencute.basesrc.R
 import com.kiencute.basesrc.data.entities.Entity
 import com.kiencute.basesrc.databinding.FragmentFirstBinding
+import com.kiencute.basesrc.extentions.gone
+import com.kiencute.basesrc.extentions.visible
 import com.kiencute.basesrc.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -54,14 +56,14 @@ class HomeFragment : Fragment(), EntityAdapter.EItemListener {
                     when (resource) {
                         is Resource.Success -> {
                             resource.data?.let { adapter.setItems(it) }
-                            binding.progressBar.visibility = View.GONE
+                            binding.progressBar.gone()
                         }
                         is Resource.Err -> {
                             Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
-                            binding.progressBar.visibility = View.GONE
+                            binding.progressBar.gone()
                         }
                         is Resource.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
+                            binding.progressBar.visible()
                         }
                     }
                 }
