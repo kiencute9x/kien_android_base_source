@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.kiencute.landmarkremark.data.entities.Entity
 import com.kiencute.landmarkremark.databinding.FragmentSecondBinding
 import com.kiencute.landmarkremark.extentions.load
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,15 +29,15 @@ class DetailFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val data: Entity? = arguments?.getParcelable("data")
-        if (data != null) {
-            with(binding) {
-                imgView.load("https://robohash.org/6336ad010c0984744dd1960402d5fc6f?set=set4&bgset=&size=200x200")
-                mail.text = data.email
-                name.text = data.firstName + " " + data.lastName
-            }
-
-        }
+//        val data: Entity? = arguments?.getParcelable("data")
+//        if (data != null) {
+//            with(binding) {
+//                imgView.load("https://robohash.org/6336ad010c0984744dd1960402d5fc6f?set=set4&bgset=&size=200x200")
+//                mail.text = data.email
+//                name.text = data.firstName + " " + data.lastName
+//            }
+//
+//        }
     }
 
     override fun onDestroyView() {

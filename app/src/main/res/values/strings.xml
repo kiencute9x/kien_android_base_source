@@ -2,7 +2,7 @@
     <string name="app_name">Landmark Remark</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
+    <string name="map_fragment">Map Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -15,5 +15,6 @@
     <string name="facebook_client_token">56789</string>
     <string name="user_detail">User Detail</string>
     <string name="user_info">User Infomation</string>
+    <string name="mapbox_access_token">pk.eyJ1Ijoia2llbjExMTk5OSIsImEiOiJjbHN4bDBmdzQwNGdqMmpvNjY4eXFtMGcwIn0.WIP_RzrQFlWt_aou97Grdg</string>
 
 </resources>

@@ -13,7 +13,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.firebase.messaging.FirebaseMessaging
 import com.kiencute.landmarkremark.R
 import com.kiencute.landmarkremark.databinding.ActivityMainBinding
 import com.kiencute.landmarkremark.datastore.DataStoreManager
@@ -42,10 +41,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupUI()
+//        setupUI()
 
         setSupportActionBar(binding.toolbar)
-        getFirebaseFCMToken()
+//        getFirebaseFCMToken()
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -63,59 +62,59 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
     }
 
-    private fun setupUI() {
-        lifecycleScope.launch {
-            dataStoreManager.themeMode.collectIn(this@MainActivity) { mode ->
-                setNightMode(mode)
-            }
-        }
-    }
+//    private fun setupUI() {
+//        lifecycleScope.launch {
+//            dataStoreManager.themeMode.collectIn(this@MainActivity) { mode ->
+//                setNightMode(mode)
+//            }
+//        }
+//    }
 
-    private fun setNightMode(mode: Int) {
-        allowReads {
-            uiStateJob = lifecycleScope.launchWhenStarted {
-                dataStoreManager.setThemeMode(mode)
-            }
-        }
-        when (mode) {
-            AppCompatDelegate.MODE_NIGHT_NO -> applyThemeMode(
-                AppCompatDelegate.MODE_NIGHT_YES,
-                R.drawable.ic_mode_night_default_black
-            )
+//    private fun setNightMode(mode: Int) {
+//        allowReads {
+//            uiStateJob = lifecycleScope.launchWhenStarted {
+//                dataStoreManager.setThemeMode(mode)
+//            }
+//        }
+//        when (mode) {
+//            AppCompatDelegate.MODE_NIGHT_NO -> applyThemeMode(
+//                AppCompatDelegate.MODE_NIGHT_YES,
+//                R.drawable.ic_mode_night_default_black
+//            )
+//
+//            AppCompatDelegate.MODE_NIGHT_YES -> applyThemeMode(
+//                Settings.MODE_NIGHT_DEFAULT,
+//                R.drawable.ic_mode_night_no_black
+//            )
+//
+//            else -> applyThemeMode(
+//                AppCompatDelegate.MODE_NIGHT_NO,
+//                R.drawable.ic_mode_night_yes_black
+//            )
+//        }
+//    }
 
-            AppCompatDelegate.MODE_NIGHT_YES -> applyThemeMode(
-                Settings.MODE_NIGHT_DEFAULT,
-                R.drawable.ic_mode_night_no_black
-            )
+//    private fun applyThemeMode(themeMode: Int, @DrawableRes icon: Int) {
+//        setStatusBarColor(R.color.status_bar)
+//        binding.fab.setImageResource(icon)
+//        binding.fab.setOnClickListener {
+//            setNightMode(themeMode)
+//        }
+//        if (AppCompatDelegate.getDefaultNightMode() != themeMode) {
+//            AppCompatDelegate.setDefaultNightMode(themeMode)
+//            window?.setWindowAnimations(R.style.WindowAnimationFadeInOut)
+//        }
+//    }
 
-            else -> applyThemeMode(
-                AppCompatDelegate.MODE_NIGHT_NO,
-                R.drawable.ic_mode_night_yes_black
-            )
-        }
-    }
-
-    private fun applyThemeMode(themeMode: Int, @DrawableRes icon: Int) {
-        setStatusBarColor(R.color.status_bar)
-        binding.fab.setImageResource(icon)
-        binding.fab.setOnClickListener {
-            setNightMode(themeMode)
-        }
-        if (AppCompatDelegate.getDefaultNightMode() != themeMode) {
-            AppCompatDelegate.setDefaultNightMode(themeMode)
-            window?.setWindowAnimations(R.style.WindowAnimationFadeInOut)
-        }
-    }
-
-    @SuppressLint("LogNotTimber")
-    private fun getFirebaseFCMToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val token = task.result
-                Log.d("getFirebaseFCMToken: %s", token)
-            }
-        }
-    }
+//    @SuppressLint("LogNotTimber")
+//    private fun getFirebaseFCMToken() {
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                val token = task.result
+//                Log.d("getFirebaseFCMToken: %s", token)
+//            }
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -125,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_userInfo -> {
-                openInformationFragment()
+//                openInformationFragment()
                 return true
             }
 
@@ -133,11 +132,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun openInformationFragment() {
-        findNavController(R.id.nav_host_fragment_content_main).navigate(
-            R.id.action_FirstFragment_to_userInformationFragment
-        )
-    }
+//    private fun openInformationFragment() {
+//        findNavController(R.id.nav_host_fragment_content_main).navigate(
+//            R.id.action_FirstFragment_to_userInformationFragment
+//        )
+//    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)

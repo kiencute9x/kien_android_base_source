@@ -2,10 +2,12 @@ package com.kiencute.landmarkremark.di
 
 import android.content.Context
 import com.kiencute.landmarkremark.data.local.AppDatabase
-import com.kiencute.landmarkremark.data.local.EntityDao
-import com.kiencute.landmarkremark.data.remote.APIService
-import com.kiencute.landmarkremark.data.remote.EntityRemoteDataSource
-import com.kiencute.landmarkremark.data.repository.EntityRepository
+import com.kiencute.landmarkremark.data.local.NoteDao
+import com.kiencute.landmarkremark.data.local.UserDao
+import com.kiencute.landmarkremark.data.remote.note.NoteService
+import com.kiencute.landmarkremark.data.remote.user.UserService
+import com.kiencute.landmarkremark.data.repository.note.NoteRepository
+import com.kiencute.landmarkremark.data.repository.user.UserRepository
 import com.kiencute.landmarkremark.datastore.DataStoreManager
 import dagger.Module
 import dagger.Provides
@@ -26,7 +28,11 @@ object StorageModule {
 
     @Singleton
     @Provides
-    fun provideEmployeeDao(db: AppDatabase) = db.entityDao()
+    fun provideNoteDao(db: AppDatabase) = db.noteDao()
+
+    @Singleton
+    @Provides
+    fun provideUserDao(db: AppDatabase) = db.userDao()
 
     @Singleton
     @Provides
@@ -35,11 +41,20 @@ object StorageModule {
     }
 
     @Provides
-    fun provideAPIService(retrofit: Retrofit): APIService =
-        retrofit.create(APIService::class.java)
+    fun provideUserService(retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
+
+    @Provides
+    fun provideNoteService(retrofit: Retrofit): NoteService =
+        retrofit.create(NoteService::class.java)
 
     @Singleton
     @Provides
-    fun provideRepository(remoteDataSource: EntityRemoteDataSource, localDataSource: EntityDao) =
-        EntityRepository(remoteDataSource, localDataSource)
+    fun provideNoteRepository(remoteDataSource: NoteService, localDataSource: NoteDao) =
+        NoteRepository(remoteDataSource, localDataSource)
+
+    @Singleton
+    @Provides
+    fun provideUserRepository(remoteDataSource: UserService, localDataSource: UserDao) =
+        UserRepository(remoteDataSource, localDataSource)
 }

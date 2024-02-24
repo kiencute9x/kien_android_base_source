@@ -1,10 +1,7 @@
 package com.kiencute.landmarkremark.extentions
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.res.Configuration
-import android.graphics.drawable.Drawable
-import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -12,19 +9,11 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.app.ActivityCompat.startPostponedEnterTransition
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.bumptech.glide.Glide
-import com.bumptech.glide.GlideContext
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.kiencute.landmarkremark.R
-import io.reactivex.rxjava3.disposables.Disposable
-import java.util.concurrent.TimeUnit
 
 fun View?.gone() {
     this?.let {

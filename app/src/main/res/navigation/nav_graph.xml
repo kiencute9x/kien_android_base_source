@@ -3,32 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/MapFramgnet">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.kiencute.basesrc.ui.home.HomeFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-        <action
-            android:id="@+id/action_FirstFragment_to_userInformationFragment"
-            app:destination="@id/userInformationFragment" />
+        android:id="@+id/MapFramgnet"
+        android:name="com.kiencute.landmarkremark.ui.map.MapFragment"
+        android:label="@string/map_fragment"
+        tools:layout="@layout/fragment_map">
+<!--        <action-->
+<!--            android:id="@+id/action_FirstFragment_to_SecondFragment"-->
+<!--            app:destination="@id/SecondFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_FirstFragment_to_userInformationFragment"-->
+<!--            app:destination="@id/userInformationFragment" />-->
     </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.kiencute.basesrc.ui.details.DetailFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+<!--    <fragment-->
+<!--        android:id="@+id/SecondFragment"-->
+<!--        android:name="com.kiencute.basesrc.ui.details.DetailFragment"-->
+<!--        android:label="@string/second_fragment_label"-->
+<!--        tools:layout="@layout/fragment_second">-->
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/userInformationFragment"
-        android:name="com.kiencute.basesrc.ui.userInformation.UserInformationFragment"
-        android:label="UserInformationFragment"></fragment>
+<!--        <action-->
+<!--            android:id="@+id/action_SecondFragment_to_FirstFragment"-->
+<!--            app:destination="@id/FirstFragment" />-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/userInformationFragment"-->
+<!--        android:name="com.kiencute.basesrc.ui.userInformation.UserInformationFragment"-->
+<!--        android:label="UserInformationFragment"></fragment>-->
 </navigation>
