@@ -1,13 +1,14 @@
 package com.kiencute.landmarkremark.ui.map
 
-import com.kiencute.landmarkremark.data.repository.user.UserRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kiencute.landmarkremark.data.entities.Note
+import com.kiencute.landmarkremark.data.repository.UserRepository
 import com.kiencute.landmarkremark.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,8 +25,14 @@ class MapViewModel @Inject constructor(
 
     private fun loadData() {
         viewModelScope.launch {
-            repository.getUserWithNotes(2).collect { data ->
-                _note.value = data as Resource<List<Note>>
+            repository.getDataAsFlow().collect()
+        }
+    }
+
+    fun loadNotesForUser(userId: Int) {
+        viewModelScope.launch {
+            repository.getNoteByUserId(userId).collect { resource ->
+                _note.value = resource as Resource<List<Note>>
             }
         }
     }

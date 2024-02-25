@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "195951530304",
-    "project_id": "kiencutebase",
-    "storage_bucket": "kiencutebase.appspot.com"
+    "project_number": "1068851229604",
+    "project_id": "localdataexample",
+    "storage_bucket": "localdataexample.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:195951530304:android:b64225f0a91105fc2aeaa5",
+        "mobilesdk_app_id": "1:1068851229604:android:c40f1c988db0e371748731",
         "android_client_info": {
-          "package_name": "com.kiencute.basesrc"
+          "package_name": "com.kiencute.landmarkremark"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "195951530304-q8cel9iggh225i495eln4mgdkts93gqg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kiencute.basesrc",
-            "certificate_hash": "85ebaf6a973ef7632fc684b0f29b55c8b1da66d9"
-          }
-        },
-        {
-          "client_id": "195951530304-qn5h30o6ghd6apgieve4qtego05vbceb.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBWYSsaTNHkHFrL1FTyNyJM6IZ5v92YAes"
+          "current_key": "AIzaSyBgssjRUMZfgXtchfRmP6ypp8dGOIMkIzA"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "195951530304-qn5h30o6ghd6apgieve4qtego05vbceb.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

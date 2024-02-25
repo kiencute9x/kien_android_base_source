@@ -27,7 +27,8 @@ data class Note(
     val userId: Int,
     val latitude: Double,
     val longitude: Double,
-    val note: String
+    val title: String,
+    val description: String
 ) : Parcelable {
     fun toJsonObject(): JsonObject {
         val gson = Gson()

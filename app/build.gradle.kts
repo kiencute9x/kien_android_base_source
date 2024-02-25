@@ -5,7 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs")
-//    id("com.google.gms.google-services")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -97,11 +97,11 @@ dependencies {
 
 
 
-    // Google services
-//    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
-//    implementation("com.google.firebase:firebase-analytics")
-//    implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
-//    implementation("com.google.android.gms:play-services-auth:20.7.0")
+//     Google services
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     // Facebook services
 //    implementation("com.facebook.android:facebook-login:16.3.0")

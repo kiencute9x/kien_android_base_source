@@ -1,4 +1,5 @@
 package com.kiencute.landmarkremark.data.base
+import android.util.Log
 import com.kiencute.landmarkremark.utils.Resource
 import retrofit2.Response
 import timber.log.Timber
@@ -13,6 +14,7 @@ abstract class BaseDataSource {
             }
             return error(" ${response.code()} ${response.message()}")
         } catch (e: Exception) {
+            Log.d("aaaaaaa", "getResult: err" + e.message)
             return error(e.message ?: e.toString())
         }
     }

@@ -29,12 +29,12 @@ class DetailFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val data: Entity? = arguments?.getParcelable("data")
-//        if (data != null) {
+//        val data.json: Entity? = arguments?.getParcelable("data.json")
+//        if (data.json != null) {
 //            with(binding) {
 //                imgView.load("https://robohash.org/6336ad010c0984744dd1960402d5fc6f?set=set4&bgset=&size=200x200")
-//                mail.text = data.email
-//                name.text = data.firstName + " " + data.lastName
+//                mail.text = data.json.email
+//                name.text = data.json.firstName + " " + data.json.lastName
 //            }
 //
 //        }

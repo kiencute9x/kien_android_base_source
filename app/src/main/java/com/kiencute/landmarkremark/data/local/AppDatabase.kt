@@ -9,11 +9,10 @@ import com.kiencute.landmarkremark.data.entities.User
 import com.kiencute.landmarkremark.utils.ROOM_DB_NAME
 
 
-@Database(entities = [User::class , Note::class], version = 4, exportSchema = false)
+@Database(entities = [User::class , Note::class], version = 5, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
-    abstract fun noteDao(): NoteDao
 
     companion object {
         @Volatile private var instance: AppDatabase? = null

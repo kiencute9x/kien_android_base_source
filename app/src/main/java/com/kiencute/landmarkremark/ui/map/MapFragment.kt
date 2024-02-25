@@ -9,18 +9,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kiencute.landmarkremark.R
 import com.kiencute.landmarkremark.data.entities.Note
 import com.kiencute.landmarkremark.databinding.FragmentMapBinding
 import com.kiencute.landmarkremark.utils.MAP_NOTE_LAYER
 import com.kiencute.landmarkremark.utils.MAP_NOTE_SOURCE
+import com.kiencute.landmarkremark.utils.Resource
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapView
+import com.mapbox.maps.RenderedQueryGeometry
+import com.mapbox.maps.RenderedQueryOptions
 import com.mapbox.maps.Style
 import com.mapbox.maps.extension.style.expressions.generated.Expression.Companion.interpolate
 import com.mapbox.maps.extension.style.image.image
@@ -29,18 +38,23 @@ import com.mapbox.maps.extension.style.layers.properties.generated.IconAnchor
 import com.mapbox.maps.extension.style.sources.generated.geoJsonSource
 import com.mapbox.maps.extension.style.style
 import com.mapbox.maps.plugin.LocationPuck2D
+import com.mapbox.maps.plugin.gestures.OnMapClickListener
 import com.mapbox.maps.plugin.gestures.OnMapLongClickListener
+import com.mapbox.maps.plugin.gestures.addOnMapClickListener
+import com.mapbox.maps.plugin.gestures.addOnMapLongClickListener
 import com.mapbox.maps.plugin.locationcomponent.location
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class MapFragment : Fragment(), OnMapLongClickListener {
+class MapFragment : Fragment(), OnMapLongClickListener, OnMapClickListener {
     private var _binding: FragmentMapBinding? = null
     private lateinit var mapView: MapView
     private val binding get() = _binding!!
     private val viewModel: MapViewModel by viewModels()
-    private var myLocation: Point? = null;
+    private var myLocation: Point? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,9 +67,38 @@ class MapFragment : Fragment(), OnMapLongClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mapView = binding.mapView
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS){
+        setupObservers()
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS) {
             initLocationComponent()
-            addNotesToMap(mapView)
+            viewModel.loadNotesForUser(456)
+            mapView.getMapboxMap().addOnMapLongClickListener(this)
+            mapView.getMapboxMap().addOnMapClickListener(this)
+
+        }
+    }
+
+    private fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.noteData.collectLatest { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            resource.data?.let { addNotesToMap(it) }
+                            binding.progressBar.visibility = View.GONE
+                        }
+
+                        is Resource.Err -> {
+                            Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
+                                .show()
+                            binding.progressBar.visibility = View.GONE
+                        }
+
+                        is Resource.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -90,28 +133,14 @@ class MapFragment : Fragment(), OnMapLongClickListener {
         }
     }
 
-    private fun addNotesToMap(mapView: MapView) {
+    private fun addNotesToMap(data: List<Note>) {
         val mapboxMap = mapView.getMapboxMap()
-        val noteList = listOf(
-            Note(1, 1,10.776889, 106.700806, "Hồ Chí Minh"),
-            Note(2 ,1, 21.028511, 105.804817, "Hà Nội"),
-            Note(3, 2,16.047079, 108.206230, "Đà Nẵng"),
-            Note(4, 2,10.045162, 105.746857, "Cần Thơ"),
-            Note(5, 3,20.844912, 106.688084, "Hải Phòng"),
-            Note(6, 2,13.088186, 109.092876, "Quy Nhơn"),
-            Note(7, 3,12.238791, 109.196749, "Nha Trang"),
-            Note(8, 3,10.354108, 107.084259, "Vũng Tàu"),
-            Note(9, 2,16.463712, 107.590863, "Huế"),
-            Note(10, 2,21.594220, 105.848170, "Thái Nguyên")
-        )
-
-
         val features = mutableListOf<Feature>()
-        for (note in noteList) {
+        for (note in data) {
             val point = Point.fromLngLat(note.longitude, note.latitude)
             val feature = Feature.fromGeometry(point)
                 .also {
-                    it.addStringProperty("noteDescription", note.note)
+                    it.addStringProperty("noteDescription", note.description)
                 }
             features.add(feature)
         }
@@ -197,8 +226,44 @@ class MapFragment : Fragment(), OnMapLongClickListener {
         mapView.onLowMemory()
     }
 
+    private fun queryMap(point: Point) {
+        val screenCoordinate = mapView.getMapboxMap().pixelForCoordinate(point)
+        mapView.getMapboxMap().queryRenderedFeatures(
+            RenderedQueryGeometry(screenCoordinate), RenderedQueryOptions(
+                listOf(
+                    MAP_NOTE_LAYER
+                ), null
+            )
+        ) { result ->
+            result.value?.let { featureList ->
+                if (featureList.isNotEmpty()) {
+                    val feature = featureList.first()
+                    showBottomSheet(feature.feature.geometry() as Point)
+                }
+            }
+        }
+    }
+
+
+    private fun showBottomSheet(point: Point) {
+        val bottomSheetDialog = context?.let { BottomSheetDialog(it) }
+        val view = layoutInflater.inflate(R.layout.layout_bottom_sheet, null)
+        bottomSheetDialog?.setContentView(view)
+        val coordinatesText = view.findViewById<TextView>(R.id.coordinator)
+        coordinatesText.text = "Lat: ${point.latitude()}, Lon: ${point.longitude()}"
+        bottomSheetDialog?.show()
+    }
+
+
     override fun onMapLongClick(point: Point): Boolean {
+        showBottomSheet(point)
         return false
     }
+
+    override fun onMapClick(point: Point): Boolean {
+        queryMap(point)
+        return true
+    }
+
 
 }
