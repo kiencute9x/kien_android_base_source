@@ -1,13 +1,18 @@
 package com.kiencute.landmarkremark.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -34,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var dataStoreManager: DataStoreManager
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +48,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setupUI()
+        requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    setSupportActionBar(binding.toolbar)
+                    val navController = findNavController(R.id.nav_host_fragment_content_main)
+                    appBarConfiguration = AppBarConfiguration(navController.graph)
+                    setupActionBarWithNavController(navController, appBarConfiguration)
+                }
+            }
 
-        setSupportActionBar(binding.toolbar)
-//        getFirebaseFCMToken()
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onDestroy() {
@@ -62,59 +72,17 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
     }
 
-//    private fun setupUI() {
-//        lifecycleScope.launch {
-//            dataStoreManager.themeMode.collectIn(this@MainActivity) { mode ->
-//                setNightMode(mode)
-//            }
-//        }
-//    }
-
-//    private fun setNightMode(mode: Int) {
-//        allowReads {
-//            uiStateJob = lifecycleScope.launchWhenStarted {
-//                dataStoreManager.setThemeMode(mode)
-//            }
-//        }
-//        when (mode) {
-//            AppCompatDelegate.MODE_NIGHT_NO -> applyThemeMode(
-//                AppCompatDelegate.MODE_NIGHT_YES,
-//                R.drawable.ic_mode_night_default_black
-//            )
-//
-//            AppCompatDelegate.MODE_NIGHT_YES -> applyThemeMode(
-//                Settings.MODE_NIGHT_DEFAULT,
-//                R.drawable.ic_mode_night_no_black
-//            )
-//
-//            else -> applyThemeMode(
-//                AppCompatDelegate.MODE_NIGHT_NO,
-//                R.drawable.ic_mode_night_yes_black
-//            )
-//        }
-//    }
-
-//    private fun applyThemeMode(themeMode: Int, @DrawableRes icon: Int) {
-//        setStatusBarColor(R.color.status_bar)
-//        binding.fab.setImageResource(icon)
-//        binding.fab.setOnClickListener {
-//            setNightMode(themeMode)
-//        }
-//        if (AppCompatDelegate.getDefaultNightMode() != themeMode) {
-//            AppCompatDelegate.setDefaultNightMode(themeMode)
-//            window?.setWindowAnimations(R.style.WindowAnimationFadeInOut)
-//        }
-//    }
-
-//    @SuppressLint("LogNotTimber")
-//    private fun getFirebaseFCMToken() {
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                val token = task.result
-//                Log.d("getFirebaseFCMToken: %s", token)
-//            }
-//        }
-//    }
+    override fun onResume() {
+        super.onResume()
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION) -> {
+            }
+            else -> {
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -124,20 +92,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_userInfo -> {
-//                openInformationFragment()
                 return true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-//    private fun openInformationFragment() {
-//        findNavController(R.id.nav_host_fragment_content_main).navigate(
-//            R.id.action_FirstFragment_to_userInformationFragment
-//        )
-//    }
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
