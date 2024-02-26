@@ -8,7 +8,7 @@
         android:id="@+id/noteTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="name"/>
+        android:hint="@string/title"/>
 
     <TextView
         android:layout_marginVertical="10dp"
@@ -18,10 +18,10 @@
         android:text="Lat + lon"/>
 
     <EditText
-        android:id="@+id/noteContent"
+        android:id="@+id/note_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Content"/>
+        android:hint="Description"/>
 
     <Button
         android:id="@+id/saveNoteButton"

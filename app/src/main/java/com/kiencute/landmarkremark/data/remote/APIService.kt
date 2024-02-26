@@ -3,8 +3,10 @@ package com.kiencute.landmarkremark.data.remote
 
 import com.kiencute.landmarkremark.data.entities.Note
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface APIService {
@@ -15,6 +17,9 @@ interface APIService {
 
     @GET("{userId}/notes")
     suspend fun getNotesByUserId(@Path("userId") userId: Int): Response<List<RemoteNote>>
+
+    @POST("notes")
+    suspend fun createNote(@Body note: RemoteNote): Response<RemoteNote>
 
     data class UserResponse(
         val users: List<RemoteUser>

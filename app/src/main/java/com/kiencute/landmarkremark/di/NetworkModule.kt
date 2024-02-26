@@ -1,6 +1,5 @@
 package com.kiencute.landmarkremark.di
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.kiencute.landmarkremark.utils.APPLICATION_JSON
@@ -64,84 +63,82 @@ object NetworkModule {
         val uri = chain.request().url.toUri().toString()
         when {
             uri.endsWith("users") -> {
-                Log.d("aaaaaa", "createMockInterceptor: 1")
                 val mockResponse = """
+            {
+              "users": [
                 {
-                  "users": [
-                    {
-                      "id": 123,
-                      "name": "John Doe",
-                      "email": "john@example.com",
-                      "notes": [
-                        {
-                          "id": 1,
-                          "userId": 123,
-                          "title": "Note 1",
-                          "latitude": 40.712776,
-                          "longitude": -74.005974,
-                          "description": "Content of note 1 for John Doe"
-                        },
-                        {
-                          "id": 4,
-                          "userId": 123,
-                          "title": "Note 2",
-                          "latitude": 37.774929,
-                          "longitude": -122.419416,
-                          "description": "Content of note 2 for John Doe"
-                        }
-                      ]
-                    },
-                    {
-                      "id": 456,
-                      "name": "Jane Smith",
-                      "email": "jane@example.com",
-                      "notes": [
-                        {
-                          "id": 2,
-                          "userId": 456,
-                          "title": "Note 1",
-                          "latitude": 51.507351,
-                          "longitude": -0.127758,
-                          "description": "Content of note 1 for Jane Smith"
-                        },
-                        {
-                          "id": 5,
-                          "userId": 456,
-                          "title": "Note 2",
-                          "latitude": 48.856614,
-                          "longitude": 2.352222,
-                          "description": "Content of note 2 for Jane Smith"
-                        }
-                      ]
-                    }
-                  ]
-                }
-            """.trimIndent()
-                mockResponse.toMockResponse(chain)
-            }
-            uri.endsWith("/notes") -> {
-                Log.d("aaaaaa", "createMockInterceptor: 12")
-
-                val mockResponse = """
-                [
+                  "id": 123,
+                  "name": "John Doe",
+                  "email": "john@example.com",
+                  "notes": [
                     {
                       "id": 1,
                       "userId": 123,
                       "title": "Note 1",
-                      "latitude": 40.712776,
-                      "longitude": -74.005974,
-                      "description": "Content of note 1 for John Doe"
+                      "latitude": 21.028511,
+                      "longitude": 105.804817,
+                      "description": "Content 1"
                     },
                     {
                       "id": 4,
                       "userId": 123,
                       "title": "Note 2",
-                      "latitude": 37.774929,
-                      "longitude": -122.419416,
-                      "description": "Content of note 2 for John Doe"
+                      "latitude": 10.762622,
+                      "longitude": 106.660172,
+                      "description": "Content 2"
                     }
-                ]
-            """.trimIndent()
+                  ]
+                },
+                {
+                  "id": 456,
+                  "name": "Jane Smith",
+                  "email": "jane@example.com",
+                  "notes": [
+                    {
+                      "id": 2,
+                      "userId": 456,
+                      "title": "Note 1",
+                      "latitude": 16.047079,
+                      "longitude": 108.206230,
+                      "description": "Content 3"
+                    },
+                    {
+                      "id": 5,
+                      "userId": 456,
+                      "title": "Note 2",
+                      "latitude": 20.844912,
+                      "longitude": 106.688084,
+                      "description": "Content 4"
+                    }
+                  ]
+                }
+              ]
+            }
+        """.trimIndent()
+                mockResponse.toMockResponse(chain)
+            }
+
+            uri.endsWith("/notes") -> {
+                val mockResponse = """
+            [
+                {
+                  "id": 1,
+                  "userId": 123,
+                  "title": "Note 1",
+                  "latitude": 21.028511,
+                  "longitude": 105.804817,
+                  "description": "Content 8"
+                },
+                {
+                  "id": 4,
+                  "userId": 123,
+                  "title": "Note 2",
+                  "latitude": 10.762622,
+                  "longitude": 106.660172,
+                  "description": "Content 7"
+                }
+            ]
+        """.trimIndent()
                 mockResponse.toMockResponse(chain)
             }
             else -> chain.proceed(chain.request())
@@ -160,6 +157,7 @@ object NetworkModule {
             )
             .addHeader("content-type", "application/json")
             .build()
+
 
     private fun createLoggingInterceptor(): Interceptor {
         return HttpLoggingInterceptor().apply {

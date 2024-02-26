@@ -8,6 +8,8 @@ const val APPLICATION_JSON = "application/json"
 
 const val MAP_NOTE_SOURCE = "map_note_source"
 const val MAP_NOTE_LAYER = "map_note_layer"
+const val USER_ID = 123
+
 //const val APPLICATION_JSON = "application/json"
 //const val APPLICATION_JSON = "application/json"
 //const val APPLICATION_JSON = "application/json"

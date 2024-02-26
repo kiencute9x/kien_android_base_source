@@ -10,7 +10,9 @@ class UserRemoteDataSource @Inject constructor(
     suspend fun getUsers() = getResult { api.getUsers() }
     suspend fun getNotes() = getResult { api.getNotes() }
 
-    suspend fun getNotesByUserId(userId: Int)  = getResult { api.getNotesByUserId(userId) }
+    suspend fun getNotesByUserId(userId: Int) = getResult { api.getNotesByUserId(userId) }
+
+    suspend fun createNote(note: APIService.RemoteNote) = getResult { api.createNote(note) }
 
 
 }

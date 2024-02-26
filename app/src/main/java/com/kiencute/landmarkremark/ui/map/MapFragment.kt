@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -24,9 +26,11 @@ import com.kiencute.landmarkremark.databinding.FragmentMapBinding
 import com.kiencute.landmarkremark.utils.MAP_NOTE_LAYER
 import com.kiencute.landmarkremark.utils.MAP_NOTE_SOURCE
 import com.kiencute.landmarkremark.utils.Resource
+import com.kiencute.landmarkremark.utils.USER_ID
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
 import com.mapbox.geojson.Point
+import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
 import com.mapbox.maps.RenderedQueryGeometry
 import com.mapbox.maps.RenderedQueryOptions
@@ -70,7 +74,7 @@ class MapFragment : Fragment(), OnMapLongClickListener, OnMapClickListener {
         setupObservers()
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS) {
             initLocationComponent()
-            viewModel.loadNotesForUser(456)
+            viewModel.loadNotesForUser(USER_ID)
             mapView.getMapboxMap().addOnMapLongClickListener(this)
             mapView.getMapboxMap().addOnMapClickListener(this)
 
@@ -101,6 +105,8 @@ class MapFragment : Fragment(), OnMapLongClickListener, OnMapClickListener {
             }
         }
     }
+    private var isLocationCentered = false
+
 
     private fun initLocationComponent() {
         val locationComponentPlugin = mapView.location
@@ -130,6 +136,10 @@ class MapFragment : Fragment(), OnMapLongClickListener, OnMapClickListener {
         }
         locationComponentPlugin.addOnIndicatorPositionChangedListener {
             myLocation = it
+            if (!isLocationCentered) {
+                mapView.getMapboxMap().setCamera(CameraOptions.Builder().center(it).build())
+                isLocationCentered = true
+            }
         }
     }
 
@@ -138,33 +148,32 @@ class MapFragment : Fragment(), OnMapLongClickListener, OnMapClickListener {
         val features = mutableListOf<Feature>()
         for (note in data) {
             val point = Point.fromLngLat(note.longitude, note.latitude)
-            val feature = Feature.fromGeometry(point)
-                .also {
-                    it.addStringProperty("noteDescription", note.description)
-                }
+            val feature = Feature.fromGeometry(point).apply {
+                addStringProperty("noteDescription", note.description)
+                addStringProperty("noteTitle", note.title)
+                addNumberProperty("userId", note.userId) // Ví dụ thêm userId như một property
+                // Bạn có thể thêm bất kỳ property nào khác từ Note mà bạn muốn hiển thị hoặc sử dụng
+            }
             features.add(feature)
         }
         val featureCollection = FeatureCollection.fromFeatures(features)
 
-
         mapboxMap.loadStyle(styleExtension = style(styleUri = Style.MAPBOX_STREETS) {
-            //add image to map
+            // Add image to map
             +image("icon-note") {
-                bitmap(drawableToBitmap(resources.getDrawable(R.drawable.icon_note))!!)
+                bitmap(drawableToBitmap(ContextCompat.getDrawable(requireContext(), R.drawable.icon_note)!!)!!)
             }
-            // create map source
+            // Create map source
             +geoJsonSource(MAP_NOTE_SOURCE) {
                 featureCollection(featureCollection)
             }
-            // create map layer
+            // Create map layer
             +symbolLayer(MAP_NOTE_LAYER, MAP_NOTE_SOURCE) {
                 iconImage("icon-note")
                 iconAnchor(IconAnchor.BOTTOM)
                 iconAllowOverlap(true)
             }
-        }) {
-            // Các layer và source đã được thêm vào bản đồ
-        }
+        })
     }
 
     private fun drawableToBitmap(drawable: Drawable): Bitmap? {
@@ -238,21 +247,65 @@ class MapFragment : Fragment(), OnMapLongClickListener, OnMapClickListener {
             result.value?.let { featureList ->
                 if (featureList.isNotEmpty()) {
                     val feature = featureList.first()
-                    showBottomSheet(feature.feature.geometry() as Point)
+                    showInfoBottomSheet(feature.feature)
                 }
             }
         }
     }
 
-
+    @SuppressLint("SetTextI18n")
     private fun showBottomSheet(point: Point) {
         val bottomSheetDialog = context?.let { BottomSheetDialog(it) }
         val view = layoutInflater.inflate(R.layout.layout_bottom_sheet, null)
         bottomSheetDialog?.setContentView(view)
+
+        val titleEditText = view.findViewById<EditText>(R.id.noteTitle)
+        val descriptionEditText = view.findViewById<EditText>(R.id.note_description)
+        val saveButton = view.findViewById<Button>(R.id.saveNoteButton)
         val coordinatesText = view.findViewById<TextView>(R.id.coordinator)
         coordinatesText.text = "Lat: ${point.latitude()}, Lon: ${point.longitude()}"
+
+        saveButton.setOnClickListener {
+            val title = titleEditText.text.toString()
+            val description = descriptionEditText.text.toString()
+
+            val note = Note(
+                noteId = 0,
+                userId = USER_ID,
+                latitude = point.latitude(),
+                longitude = point.longitude(),
+                title = title,
+                description = description
+            )
+            viewModel.insertNote(note)
+            bottomSheetDialog?.dismiss()
+        }
+
         bottomSheetDialog?.show()
     }
+
+    private fun showInfoBottomSheet(feature: Feature) {
+        val bottomSheetDialog = context?.let { BottomSheetDialog(it) }
+        val view = layoutInflater.inflate(R.layout.layout_bottomsheet2, null)
+        bottomSheetDialog?.setContentView(view)
+
+        val titleTextView = view.findViewById<TextView>(R.id.tv_title)
+        val descriptionTextView = view.findViewById<TextView>(R.id.tv_des)
+        val coordinatesTextView = view.findViewById<TextView>(R.id.tv_coor)
+        val tvUserID = view.findViewById<TextView>(R.id.tv_userId)
+
+        tvUserID.text = "User ID: " +  feature.getStringProperty("userId")
+        titleTextView.text = "Note Title: " +  feature.getStringProperty("noteTitle")
+        descriptionTextView.text = "Note Description: " +  feature.getStringProperty("noteDescription")
+        val point = feature.geometry() as? Point
+        point?.let {
+            coordinatesTextView.text = "Coordinate: " +  "Lat: ${it.latitude()}, Lon: ${it.longitude()}"
+        }
+
+
+        bottomSheetDialog?.show()
+    }
+
 
 
     override fun onMapLongClick(point: Point): Boolean {

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.kiencute.landmarkremark.data.entities.Note
 import com.kiencute.landmarkremark.data.repository.UserRepository
 import com.kiencute.landmarkremark.utils.Resource
+import com.kiencute.landmarkremark.utils.USER_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,4 +37,27 @@ class MapViewModel @Inject constructor(
             }
         }
     }
+
+    fun insertNote(note: Note) {
+        viewModelScope.launch {
+            repository.insertNote(note).collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        refreshNotes()
+                    }
+                    is Resource.Err -> {
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+    private fun refreshNotes() {
+        viewModelScope.launch {
+            repository.refreshNotes().collect { resource ->
+                _note.value = resource
+            }
+        }
+    }
+
 }

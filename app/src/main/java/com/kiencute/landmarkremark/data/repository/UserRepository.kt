@@ -8,6 +8,7 @@ import com.kiencute.landmarkremark.data.remote.UserRemoteDataSource
 import com.kiencute.landmarkremark.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -62,8 +63,8 @@ class UserRepository @Inject constructor(
         emit(Resource.Loading())
         when (val result = userRemote.getNotesByUserId(userId)) {
             is Resource.Success -> {
-                result.data?.let{ it ->
-                    userDao.insertAllNote( it.map { it.toNote()} )
+                result.data?.let { it ->
+                    userDao.insertAllNote(it.map { it.toNote() })
                     emit(Resource.Success(it.toNoteList()))
                 }
 
@@ -83,6 +84,41 @@ class UserRepository @Inject constructor(
 
     }.flowOn(Dispatchers.IO)
 
+    fun insertNote(note: Note): Flow<Resource<out Any>> = flow {
+        emit(Resource.Loading())
+        val remoteNote = note.toRemoteNote()
+        when (val result = userRemote.createNote(remoteNote)) {
+            is Resource.Success -> {
+                result.data?.let { it ->
+                    userDao.insertNote(it.toNote())
+                    emit(Resource.Success(it.toNote()))
+                }
+            }
+
+            is Resource.Err -> {
+//                emit(Resource.Err(result.message ?: "Save Note Error !"))
+
+                // if error call server save in local (just test data local)
+                userDao.insertNote(remoteNote.toNote())
+                emit(Resource.Success(remoteNote.toNote()))
+
+            }
+
+            else -> {}
+        }
+    }.flowOn(Dispatchers.IO)
+
+    fun refreshNotes(): Flow<Resource<List<Note>>> = flow {
+        emit(Resource.Loading())
+        try {
+            val notes = userDao.getAllNotes().first()
+            emit(Resource.Success(notes))
+        } catch (e: Exception) {
+            emit(Resource.Err("Could not fetch notes: ${e.message}"))
+        }
+    }.flowOn(Dispatchers.IO)
+
+
     private fun APIService.RemoteNote.toNote(): Note = Note(
         noteId = this.id,
         userId = this.userId,
@@ -92,6 +128,18 @@ class UserRepository @Inject constructor(
         description = this.description
     )
 
-    fun List<APIService.RemoteNote>.toNoteList(): List<Note> = this.map { it.toNote() }
+    private fun List<APIService.RemoteNote>.toNoteList(): List<Note> = this.map { it.toNote() }
+
+    private fun Note.toRemoteNote(): APIService.RemoteNote {
+        return APIService.RemoteNote(
+            id = this.noteId,
+            userId = this.userId,
+            title = this.title,
+            latitude = this.latitude,
+            longitude = this.longitude,
+            description = this.description
+        )
+    }
+
 
 }
