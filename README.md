@@ -1,5 +1,3 @@
-Landmark Remark (MA TRUNG KIEN)
-
 - Primary Technologies Used: MVVM, Retrofit, Hilt, Flow, Mapbox , ...
 
 - Functionalities:
