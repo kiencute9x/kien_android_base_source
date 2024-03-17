@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        // facebook
+        // facebook 222
         FacebookSdk.sdkInitialize(this@LoginActivity)
         callbackManager = CallbackManager.Factory.create()
         initLayout()
